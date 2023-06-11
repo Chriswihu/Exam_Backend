@@ -1,4 +1,4 @@
-GET http://localhost:8080/api/info
+GET http://localhost:8080/dat3_exam/api/info
 
 ###
 POST http://localhost:8080/api/login
