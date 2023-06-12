@@ -8,6 +8,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "tenant")
+@NamedQuery(name = "Tenant.deleteAllRows", query = "DELETE from Tenant")
 public class Tenant implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -21,7 +22,7 @@ public class Tenant implements Serializable {
     private String phone;
     private String job;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.PERSIST)
     @JoinTable(name = "tenant_rentals", joinColumns = {
             @JoinColumn(name = "tenant_id", referencedColumnName = "id")}, inverseJoinColumns = {
             @JoinColumn(name = "rental_id", referencedColumnName = "id")})
@@ -70,13 +71,28 @@ public class Tenant implements Serializable {
         this.job = job;
     }
 
-    public List<Rental> getRentals() {
-        return rentals;
+    public List<Rental> getRentals() throws NullPointerException{
+        if (rentals != null) {
+            return rentals;
+        } else {
+            throw new NullPointerException("No rentals found");
+        }
+    }
+
+    public void setRentals(List<Rental> rentals) {
+        this.rentals = rentals;
     }
 
     public void addRental(Rental rental) {
-        this.rentals.add(rental);
+        if(rental != null){
+            this.rentals.add(rental);
+        }
+
     }
+
+
+
+
 
     @Override
     public String toString() {

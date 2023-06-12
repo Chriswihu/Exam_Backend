@@ -21,7 +21,7 @@ public class Rental implements Serializable {
     private int deposit;
     private String contactPerson;
 
-    @ManyToMany(mappedBy = "rentals")
+    @ManyToMany(mappedBy = "rentals", cascade = CascadeType.PERSIST)
     private List<Tenant> tenants;
 
     @ManyToOne(cascade = CascadeType.PERSIST)
@@ -97,11 +97,20 @@ public class Rental implements Serializable {
 
 
 
-    public House getHouse() {
-        return house;
+    public House getHouse() throws IndexOutOfBoundsException {
+        try {
+            return house;
+        } catch (Exception e) {
+            System.out.println("No house found");
+            return null;
+        }
     }
+
     public void setHouse(House house) {
         this.house = house;
+        if(!house.getRentals().contains(this)) {
+            house.getRentals().add(this);
+        }
     }
 
 
@@ -115,6 +124,7 @@ public class Rental implements Serializable {
                 ", deposit=" + deposit +
                 ", contactPerson='" + contactPerson + '\'' +
                 ", tenants=" + tenants +
+                ", house=" + house +
                 '}';
     }
 }

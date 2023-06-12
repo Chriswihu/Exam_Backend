@@ -1,8 +1,12 @@
 package facades;
 
+import entities.Role;
+import entities.Tenant;
 import entities.User;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+
 import security.errorhandling.AuthenticationException;
 
 /**
@@ -17,7 +21,6 @@ public class UserFacade {
     }
 
     /**
-     *
      * @param _emf
      * @return the instance of this facade.
      */
@@ -42,5 +45,30 @@ public class UserFacade {
         }
         return user;
     }
+
+    public User createUser(String userName, String password) {
+        EntityManager em = emf.createEntityManager();
+        Role userRole = new Role("user");
+
+        User user = new User(userName, password);
+        user.addRole(userRole);
+
+        em.getTransaction().begin();
+        em.persist(userRole);
+        em.persist(user);
+        em.getTransaction().commit();
+        em.close();
+
+        return user;
+    }
+
+    public User getUser(String userName) {
+        EntityManager em = emf.createEntityManager();
+        User user = em.find(User.class, userName);
+        em.close();
+        return user;
+    }
+
+
 
 }
