@@ -1,13 +1,17 @@
 package facades;
 
+import dtos.UserDto;
 import entities.Role;
-import entities.Tenant;
+//import entities.Tenant;
 import entities.User;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.TypedQuery;
 
 import security.errorhandling.AuthenticationException;
+
+import java.util.List;
 
 /**
  * @author lam@cphbusiness.dk
@@ -32,6 +36,10 @@ public class UserFacade {
         return instance;
     }
 
+    private static EntityManager getEntityManager() {
+        return emf.createEntityManager();
+    }
+
     public User getVerifiedUser(String username, String password) throws AuthenticationException {
         EntityManager em = emf.createEntityManager();
         User user;
@@ -46,27 +54,39 @@ public class UserFacade {
         return user;
     }
 
-    public User createUser(String userName, String password) {
+    public UserDto create(UserDto ud) {
+        User user = new User(ud.getUserName(), ud.getUserPass(), ud.getPhone(), ud.getJob());
         EntityManager em = emf.createEntityManager();
-        Role userRole = new Role("user");
+        try {
+            em.getTransaction().begin();
+            em.persist(user);
+            em.getTransaction().commit();
+        } finally {
+            em.close();
+        }
 
-        User user = new User(userName, password);
-        user.addRole(userRole);
-
-        em.getTransaction().begin();
-        em.persist(userRole);
-        em.persist(user);
-        em.getTransaction().commit();
-        em.close();
-
-        return user;
+        return new UserDto(user);
     }
 
-    public User getUser(String userName) {
+    public UserDto delete(String username) {
         EntityManager em = emf.createEntityManager();
-        User user = em.find(User.class, userName);
-        em.close();
-        return user;
+        User user = em.find(User.class, username);
+        try {
+            em.getTransaction().begin();
+            em.remove(user);
+            em.getTransaction().commit();
+        } finally {
+            em.close();
+        }
+
+        return new UserDto(user);
+    }
+
+    public List<UserDto> getAll() {
+        EntityManager em = emf.createEntityManager();
+        TypedQuery<User> query = em.createQuery("SELECT u FROM User u", User.class);
+        List<User> users = query.getResultList();
+        return UserDto.getDtos(users);
     }
 
 

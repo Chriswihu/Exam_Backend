@@ -2,6 +2,7 @@ package dtos;
 
 import entities.Rental;
 
+import javax.persistence.EntityManager;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,14 +20,14 @@ public class RentalDto implements Serializable {
     private final String contactPerson;
     private final HouseDto house;
 
-    public RentalDto(Rental rental) {
-        this.id = rental.getId();
-        this.startDate = rental.getStartDate();
-        this.endDate = rental.getEndDate();
-        this.priceAnnual = rental.getPriceAnnual();
-        this.deposit = rental.getDeposit();
-        this.contactPerson = rental.getContactPerson();
-        this.house = new HouseDto(rental.getHouse());
+    public RentalDto(Rental r) {
+        this.id = r.getId();
+        this.startDate = r.getStartDate();
+        this.endDate = r.getEndDate();
+        this.priceAnnual = r.getPriceAnnual();
+        this.deposit = r.getDeposit();
+        this.contactPerson = r.getContactPerson();
+        this.house = new HouseDto(r.getHouse());
     }
 
     public static List<RentalDto> getDtos(List<Rental> rentals) {
@@ -34,6 +35,8 @@ public class RentalDto implements Serializable {
         rentals.forEach(r -> rentalDtos.add(new RentalDto(r)));
         return rentalDtos;
     }
+
+
 
 
     public Long getId() {

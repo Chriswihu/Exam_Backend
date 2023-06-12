@@ -103,10 +103,10 @@ public class RentalFacade {
         return RentalDto.getDtos(rentals);
     }
 
-    public List<RentalDto> getRentalsByTenantId(long id){
+    public List<RentalDto> getRentalsByUserName(String userName){
         EntityManager em = emf.createEntityManager();
-        TypedQuery<Rental> query = em.createQuery("SELECT r FROM Rental r WHERE r.tenant.id = :id", Rental.class);
-        query.setParameter("id", id);
+        TypedQuery<Rental> query = em.createQuery("SELECT r FROM Rental r WHERE r.contactPerson.userName = :userName", Rental.class);
+        query.setParameter("userName", userName);
         List<Rental> rentals = query.getResultList();
         em.close();
         return RentalDto.getDtos(rentals);

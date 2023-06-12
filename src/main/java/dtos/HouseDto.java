@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
  * DTO for {@link entities.House}
  */
 public class HouseDto implements Serializable {
-    private final Long id;
+    private Long id;
     private final String address;
     private final String city;
     private final int numberOfRooms;
@@ -26,16 +26,18 @@ public class HouseDto implements Serializable {
 
     }
 
-//    public static List<HouseDto> getDtos(List<House> houses) {
-//        List<HouseDto> houseDtos = new ArrayList<>();
-//        houses.forEach(h -> houseDtos.add(new HouseDto(h)));
-//        return houseDtos;
-//
-//    }
+    public static List<HouseDto> getDtos(List<House> houses) {
+        List<HouseDto> houseDtos = new ArrayList<>();
+        houses.forEach(h -> houseDtos.add(new HouseDto(h)));
+        return houseDtos;
+    }
 
 
     public Long getId() {
         return id;
+    }
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getAddress() {
@@ -50,9 +52,7 @@ public class HouseDto implements Serializable {
         return numberOfRooms;
     }
 
-//    public List<Long> getRentals() {
-//        return rentals;
-//    }
+
 
 
 }

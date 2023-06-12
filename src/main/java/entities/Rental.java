@@ -22,7 +22,7 @@ public class Rental implements Serializable {
     private String contactPerson;
 
     @ManyToMany(mappedBy = "rentals", cascade = CascadeType.PERSIST)
-    private List<Tenant> tenants;
+    private List<User> users;
 
     @ManyToOne(cascade = CascadeType.PERSIST)
     private House house;
@@ -36,7 +36,7 @@ public class Rental implements Serializable {
         this.priceAnnual = priceAnnual;
         this.deposit = deposit;
         this.contactPerson = contactPerson;
-        this.tenants = new ArrayList<>();
+        this.users = new ArrayList<>();
         this.house = new House();
     }
 
@@ -82,20 +82,18 @@ public class Rental implements Serializable {
         this.contactPerson = contactPerson;
     }
 
-    public List<Tenant> getTenants() {
-        return tenants;
+    public List<User> getTenants() {
+        return users;
     }
-    public void setTenants(List<Tenant> tenants) {
-        this.tenants = tenants;
+    public void setTenants(List<User> tenants) {
+        this.users = tenants;
     }
-    public void addTenant(Tenant tenant) {
-        this.tenants.add(tenant);
-        if(!tenant.getRentals().contains(this)) {
-            tenant.getRentals().add(this);
+    public void addTenant(User user) {
+        this.users.add(user);
+        if(!user.getRentals().contains(this)) {
+            user.getRentals().add(this);
         }
     }
-
-
 
     public House getHouse() throws IndexOutOfBoundsException {
         try {
@@ -105,7 +103,6 @@ public class Rental implements Serializable {
             return null;
         }
     }
-
     public void setHouse(House house) {
         this.house = house;
         if(!house.getRentals().contains(this)) {
@@ -123,7 +120,6 @@ public class Rental implements Serializable {
                 ", priceAnnual=" + priceAnnual +
                 ", deposit=" + deposit +
                 ", contactPerson='" + contactPerson + '\'' +
-                ", tenants=" + tenants +
                 ", house=" + house +
                 '}';
     }

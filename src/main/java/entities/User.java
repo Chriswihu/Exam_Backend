@@ -25,9 +25,17 @@ public class User implements Serializable {
     @Size(min = 1, max = 255)
     @Column(name = "user_pass")
     private String userPass;
+    private String phone;
+    private String job;
 
-    @OneToOne(cascade = CascadeType.PERSIST, mappedBy = "user")
-    private Tenant tenant;
+//    @OneToOne(cascade = CascadeType.PERSIST, mappedBy = "user")
+//    private Tenant tenant;
+
+    @ManyToMany(cascade = CascadeType.PERSIST)
+    @JoinTable(name = "user_rentals", joinColumns = {
+            @JoinColumn(name = "user_name", referencedColumnName = "user_name")}, inverseJoinColumns = {
+            @JoinColumn(name = "rental_id", referencedColumnName = "id")})
+    private List<Rental> rentals;
 
     @JoinTable(name = "user_roles", joinColumns = {
             @JoinColumn(name = "user_name", referencedColumnName = "user_name")}, inverseJoinColumns = {
@@ -49,14 +57,22 @@ public class User implements Serializable {
     public User() {
     }
 
+    public User(String userName, String userPass) {
+        this.userName = userName;
+        this.userPass = BCrypt.hashpw(userPass, BCrypt.gensalt());
+    }
+
     //TODO Change when password is hashed
     public boolean verifyPassword(String pw) {
         return BCrypt.checkpw(pw, userPass);
     }
 
-    public User(String userName, String userPass) {
+    public User(String userName, String userPass, String phone, String job) {
         this.userName = userName;
         this.userPass = BCrypt.hashpw(userPass, BCrypt.gensalt());
+        this.phone = phone;
+        this.job = job;
+        this.rentals = new ArrayList<>();
     }
 
 
@@ -75,11 +91,31 @@ public class User implements Serializable {
         ;
     }
 
-    public Tenant getTenant() {
-        return tenant;
+    public String getPhone() {
+        return this.phone;
     }
-    public void setTenant(Tenant tenant) {
-        this.tenant = tenant;
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getJob() {
+        return this.job;
+    }
+    public void setJob(String job) {
+        this.job = job;
+    }
+
+    public List<Rental> getRentals() {
+        return this.rentals;
+    }
+    public void setRentals(List<Rental> rentals) {
+        this.rentals = rentals;
+    }
+    public void addRental(Rental rental) {
+        if(rental != null){
+            this.rentals.add(rental);
+        }
+
     }
 
     public List<Role> getRoleList() {
@@ -97,6 +133,9 @@ public class User implements Serializable {
         return "User{" +
                 "userName='" + userName + '\'' +
                 ", userPass='" + userPass + '\'' +
+                ", phone='" + phone + '\'' +
+                ", job='" + job + '\'' +
+                ", rentals=" + rentals +
                 '}';
     }
 }
