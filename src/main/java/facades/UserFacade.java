@@ -54,6 +54,22 @@ public class UserFacade {
         return user;
     }
 
+    public User addUser(String username, String password, String phone, String job) {
+        EntityManager em = emf.createEntityManager();
+        Role userRole = new Role("user");
+        User user = new User(username, password, phone, job);
+        user.addRole(userRole);
+        try {
+            em.getTransaction().begin();
+            em.persist(user);
+            em.getTransaction().commit();
+        } finally {
+            em.close();
+        }
+
+        return user;
+    }
+
     public UserDto create(UserDto ud) {
         User user = new User(ud.getUserName(), ud.getUserPass(), ud.getPhone(), ud.getJob());
         EntityManager em = emf.createEntityManager();
@@ -90,5 +106,35 @@ public class UserFacade {
     }
 
 
+    public User deleteUser(Long id) {
+        EntityManager em = emf.createEntityManager();
+        User user = em.find(User.class, id);
+        try {
+            em.getTransaction().begin();
+            em.remove(user);
+            em.getTransaction().commit();
+        } finally {
+            em.close();
+        }
 
+        return user;
+    }
+
+    public User editUser(Long id, String userName, String userPass, String phone, String job) {
+        EntityManager em = emf.createEntityManager();
+        User user = em.find(User.class, id);
+        user.setUserName(userName);
+        user.setUserPass(userPass);
+        user.setPhone(phone);
+        user.setJob(job);
+        try {
+            em.getTransaction().begin();
+            em.merge(user);
+            em.getTransaction().commit();
+        } finally {
+            em.close();
+        }
+
+        return user;
+    }
 }

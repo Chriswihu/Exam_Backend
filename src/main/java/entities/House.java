@@ -15,8 +15,11 @@ public class House implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
+    @Column(name = "address", length = 255, nullable = false)
     private String address;
+    @Column(name = "city", length = 255, nullable = false)
     private String city;
+    @Column(name = "numberofrooms", nullable = false)
     private int numberOfRooms;
 
     @OneToMany(mappedBy = "house", cascade = CascadeType.PERSIST)

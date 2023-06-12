@@ -67,10 +67,12 @@ public class Tester {
         u4.addRental(r4);
 
 
-        r1.setHouse(h1);
-        r2.setHouse(h2);
-        r3.setHouse(h1);
-        r4.setHouse(h1);
+
+
+//        r1.setHouse(h1);
+//        r2.setHouse(h2);
+//        r3.setHouse(h1);
+//        r4.setHouse(h1);
 
         u1.addRole(userRole);
         u2.addRole(userRole);

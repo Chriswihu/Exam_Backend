@@ -95,19 +95,27 @@ public class Rental implements Serializable {
         }
     }
 
-    public House getHouse() throws IndexOutOfBoundsException {
-        try {
-            return house;
-        } catch (Exception e) {
-            System.out.println("No house found");
-            return null;
-        }
+//    public House getHouse() throws IndexOutOfBoundsException {
+//        try {
+//            return house;
+//        } catch (Exception e) {
+//            System.out.println("No house found");
+//            return null;
+//        }
+//    }
+    public House getHouse() {
+        return house;
     }
     public void setHouse(House house) {
         this.house = house;
-        if(!house.getRentals().contains(this)) {
-            house.getRentals().add(this);
-        }
+//        if(!house.getRentals().contains(this)) {
+//            house.getRentals().add(this);
+//        }
+    }
+    public void addHouse(House house) {
+        house.getRentals().add(this);
+        this.house = house;
+
     }
 
 
@@ -120,7 +128,7 @@ public class Rental implements Serializable {
                 ", priceAnnual=" + priceAnnual +
                 ", deposit=" + deposit +
                 ", contactPerson='" + contactPerson + '\'' +
-                ", house=" + house +
+//                ", house=" + house +
                 '}';
     }
 }

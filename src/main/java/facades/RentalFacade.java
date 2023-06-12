@@ -81,7 +81,7 @@ public class RentalFacade {
         return new RentalDto(rental);
     }
 
-    public RentalDto delete(long id) {
+    public RentalDto delete(Long id) {
         EntityManager em = emf.createEntityManager();
         Rental rental = em.find(Rental.class, id);
 
