@@ -25,12 +25,7 @@ public class TenantDto implements Serializable {
         this.rentalDtos = t.getRentals().stream().map(r -> r.getId().toString()).collect(Collectors.toList());
     }
 
-    public TenantDto(Tenant t) {
-        this.id = t.getId();
-        this.phone = t.getPhone();
-        this.job = t.getJob();
-        this.rentalDtos = t.getRentals().stream().map(r -> r.getId().toString()).collect(Collectors.toList());
-    }
+
 
     public static List<TenantDto> getDtos(List<Tenant> tenants) {
         return tenants.stream().map(TenantDto::new).collect(Collectors.toList());
