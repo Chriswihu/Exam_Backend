@@ -1,6 +1,6 @@
-GET http://localhost:8080/dat3_exam/api/user/all
+GET http://localhost:8080/dat3_exam/api/user
 ###
-GET http://localhost:8080/dat3_exam/api/rental/all
+GET http://localhost:8080/dat3_exam/api/rental
 ###
 
 POST http://localhost:8080/dat3_exam/api/user/create

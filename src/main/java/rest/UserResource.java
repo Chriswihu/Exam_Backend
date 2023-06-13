@@ -21,8 +21,7 @@ import javax.ws.rs.core.*;
 public class UserResource {
 
     private static final EntityManagerFactory EMF = EMF_Creator.createEntityManagerFactory();
-       
-    private static final UserFacade userFacade =  UserFacade.getUserFacade(EMF);
+    private static final UserFacade userFacade = UserFacade.getUserFacade(EMF);
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 
     @Context
@@ -33,25 +32,27 @@ public class UserResource {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public String getInfoForAll() {
-        return "{\"msg\":\"Hello rental\"}";
+    public String getAll(){
+        return GSON.toJson(userFacade.getAll());
     }
+
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("all")
-    public String allUsers() {
+    public List<User> allInUser() {
+
         EntityManager em = EMF.createEntityManager();
         try {
             TypedQuery<User> query = em.createQuery("select u from User u", entities.User.class);
             List<User> users = query.getResultList();
             System.out.println(users);
-            return "[" + users.size() + "]" ;
-//            + users
+            return users;
         } finally {
             em.close();
         }
     }
+
 
     @POST
     @Produces({MediaType.APPLICATION_JSON})
@@ -81,9 +82,6 @@ public class UserResource {
         User user = userFacade.editUser(id, ud.getUserName(), ud.getUserPass(), ud.getPhone(), ud.getJob());
         return Response.ok(user).build();
     }
-
-
-
 
 
 }

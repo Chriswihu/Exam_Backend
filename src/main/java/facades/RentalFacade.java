@@ -12,7 +12,6 @@ import javax.persistence.TypedQuery;
 import java.util.List;
 
 /**
- *
  * Rename Class to a relevant name Add add relevant facade methods
  */
 public class RentalFacade {
@@ -21,11 +20,11 @@ public class RentalFacade {
     private static EntityManagerFactory emf;
 
     //Private Constructor to ensure Singleton
-    private RentalFacade() {}
-    
-    
+    private RentalFacade() {
+    }
+
+
     /**
-     * 
      * @param _emf
      * @return an instance of this facade class.
      */
@@ -41,7 +40,7 @@ public class RentalFacade {
         return emf.createEntityManager();
     }
 
-    public RentalDto create(RentalDto rd){
+    public RentalDto create(RentalDto rd) {
         Rental rental = new Rental(rd.getStartDate(), rd.getEndDate(), rd.getPriceAnnual(), rd.getDeposit(), rd.getContactPerson());
         EntityManager em = emf.createEntityManager();
         try {
@@ -54,14 +53,24 @@ public class RentalFacade {
         return new RentalDto(rental);
     }
 
+    public List<RentalDto> getAll() {
+        EntityManager em = emf.createEntityManager();
+        List<Rental> rentals;
+        try {
+            TypedQuery<Rental> query = em.createQuery("SELECT r FROM Rental r", Rental.class);
+            rentals = query.getResultList();
+        } finally {
+            em.close();
+        }
+        return RentalDto.getDtos(rentals);
+    }
+
     public RentalDto getById(Long id) {
         EntityManager em = emf.createEntityManager();
         Rental rental = em.find(Rental.class, id);
         em.close();
 
         return new RentalDto(rental);
-
-
 
     }
 
@@ -99,7 +108,7 @@ public class RentalFacade {
         return new RentalDto(rental);
     }
 
-    public List<RentalDto> getAllRentals(){
+    public List<RentalDto> getAllRentals() {
         EntityManager em = emf.createEntityManager();
         TypedQuery<Rental> query = em.createQuery("SELECT r FROM Rental r", Rental.class);
         List<Rental> rentals = query.getResultList();
@@ -107,7 +116,7 @@ public class RentalFacade {
         return RentalDto.getDtos(rentals);
     }
 
-    public List<RentalDto> getRentalsByUserName(String userName){
+    public List<RentalDto> getRentalsByUserName(String userName) {
         EntityManager em = emf.createEntityManager();
         TypedQuery<Rental> query = em.createQuery("SELECT r FROM Rental r WHERE r.contactPerson.userName = :userName", Rental.class);
         query.setParameter("userName", userName);
@@ -116,7 +125,7 @@ public class RentalFacade {
         return RentalDto.getDtos(rentals);
     }
 
-    public List<RentalDto> getRentalsByHouseId(long id){
+    public List<RentalDto> getRentalsByHouseId(long id) {
         EntityManager em = emf.createEntityManager();
         TypedQuery<Rental> query = em.createQuery("SELECT r FROM Rental r WHERE r.house.id = :id", Rental.class);
         query.setParameter("id", id);

@@ -73,8 +73,13 @@ public class HouseFacade {
 
     public List<HouseDto> getAll() {
         EntityManager em = emf.createEntityManager();
-        TypedQuery<House> query = em.createQuery("SELECT h FROM House h", House.class);
-        List<House> houses = query.getResultList();
+        List<House> houses;
+        try {
+            TypedQuery<House> query = em.createQuery("SELECT h FROM House h", House.class);
+            houses = query.getResultList();
+        } finally {
+            em.close();
+        }
         return HouseDto.getDtos(houses);
     }
 

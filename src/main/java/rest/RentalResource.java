@@ -33,23 +33,30 @@ public class RentalResource {
 
 
 
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    public String getInfoForAll() {
-        return "{\"msg\":\"Hello anonymous\"}";
-    }
+//    @GET
+//    @Produces(MediaType.APPLICATION_JSON)
+//    public String getInfoForAll() {
+//        return "{\"msg\":\"Hello anonymous\"}";
+//    }
 
     //Just to verify if the database is setup
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public String getRentals(){
+        return GSON.toJson(rentalFacade.getAll());
+    }
+
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("all")
-    public String allRental() {
+    public List<Rental> allRental() {
 
         EntityManager em = EMF.createEntityManager();
         try{
             TypedQuery<Rental> query = em.createQuery("select r from Rental r", entities.Rental.class);
             List<Rental> rentals = query.getResultList();
-            return "[" + rentals.size() + "]" + rentals;
+            return rentals;
         }finally{
             em.close();
         }
