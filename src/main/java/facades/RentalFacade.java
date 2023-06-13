@@ -54,11 +54,15 @@ public class RentalFacade {
         return new RentalDto(rental);
     }
 
-    public RentalDto getById(long id) { //throws RenameMeNotFoundException {
+    public RentalDto getById(Long id) {
         EntityManager em = emf.createEntityManager();
         Rental rental = em.find(Rental.class, id);
+        em.close();
 
         return new RentalDto(rental);
+
+
+
     }
 
     public RentalDto edit(RentalDto rd) {

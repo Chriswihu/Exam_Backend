@@ -18,9 +18,9 @@ public class Tester {
         // Also, either delete this file, when users are created or rename and add to .gitignore
         // Whatever you do DO NOT COMMIT and PUSH with the real passwords
 
-        User user = new User("user", "test123", "12345678", "job1");
-        User admin = new User("admin", "test123", "23456789", "job2");
-        User both = new User("user_admin", "test123", "34567890", "job3");
+        User user = new User("user", "test123", "12345678", "userJob");
+        User admin = new User("admin", "test123", "23456789", "adminJob");
+        User both = new User("user_admin", "test123", "34567890", "bothJob");
 
         User u1 = new User("user1", "test123","12345678", "job1");
         User u2 = new User("user2", "test123","23456789", "job2");
@@ -66,7 +66,12 @@ public class Tester {
         u3.addRental(r3);
         u4.addRental(r4);
 
-
+        h1.addRental(r1);
+        h1.addRental(r2);
+        h1.addRental(r3);
+        h2.addRental(r4);
+//        h2.addRental(r5);
+//        h2.addRental(r6);
 
 
 //        r1.setHouse(h1);

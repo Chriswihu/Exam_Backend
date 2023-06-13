@@ -40,6 +40,16 @@ public class UserFacade {
         return emf.createEntityManager();
     }
 
+    public User getUser(String username) {
+        EntityManager em = emf.createEntityManager();
+        try {
+            User user = em.find(User.class, username);
+            return user;
+        } finally {
+            em.close();
+        }
+    }
+
     public User getVerifiedUser(String username, String password) throws AuthenticationException {
         EntityManager em = emf.createEntityManager();
         User user;

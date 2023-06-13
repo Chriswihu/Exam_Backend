@@ -8,6 +8,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "rental")
+@NamedQuery(name = "Rental.deleteAllRows", query = "DELETE from Rental")
 public class Rental implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -37,7 +38,7 @@ public class Rental implements Serializable {
         this.deposit = deposit;
         this.contactPerson = contactPerson;
         this.users = new ArrayList<>();
-        this.house = new House();
+//        this.house = new House();
     }
 
     public Long getId() {

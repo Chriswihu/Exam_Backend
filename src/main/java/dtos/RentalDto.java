@@ -18,7 +18,7 @@ public class RentalDto implements Serializable {
     private final int priceAnnual;
     private final int deposit;
     private final String contactPerson;
-    private final HouseDto house;
+//    private final HouseDto house;
 
     public RentalDto(Rental r) {
         this.id = r.getId();
@@ -27,7 +27,7 @@ public class RentalDto implements Serializable {
         this.priceAnnual = r.getPriceAnnual();
         this.deposit = r.getDeposit();
         this.contactPerson = r.getContactPerson();
-        this.house = new HouseDto(r.getHouse());
+//        this.house = new HouseDto(r.getHouse());
     }
 
     public static List<RentalDto> getDtos(List<Rental> rentals) {
@@ -67,9 +67,9 @@ public class RentalDto implements Serializable {
         return contactPerson;
     }
 
-    public HouseDto getHouse() {
-        return house;
-    }
+//    public HouseDto getHouse() {
+//        return house;
+//    }
 
 
 }

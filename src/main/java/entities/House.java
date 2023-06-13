@@ -69,8 +69,11 @@ public class House implements Serializable {
     public void setRentals(List<Rental> rentals) {
         this.rentals = rentals;
     }
-    public void setRental(Rental rental) {
+    public void addRental(Rental rental) {
         this.rentals.add(rental);
+        if (rental != null) {
+            rental.setHouse(this);
+        }
     }
 
     @Override
@@ -82,4 +85,6 @@ public class House implements Serializable {
                 ", numberOfRooms=" + numberOfRooms +
                 '}';
     }
+
+
 }

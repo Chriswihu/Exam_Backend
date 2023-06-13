@@ -46,7 +46,8 @@ public class UserResource {
             TypedQuery<User> query = em.createQuery("select u from User u", entities.User.class);
             List<User> users = query.getResultList();
             System.out.println(users);
-            return "[" + users.size() + "]" + users;
+            return "[" + users.size() + "]" ;
+//            + users
         } finally {
             em.close();
         }
