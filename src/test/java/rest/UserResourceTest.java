@@ -107,7 +107,7 @@ public class UserResourceTest {
                 .get("/user/all").then()
                 .assertThat()
                 .statusCode(HttpStatus.OK_200.getStatusCode())
-                .body(equalTo("[2]"));
+                .body("size()", equalTo(2));
     }
 
 
@@ -131,4 +131,4 @@ public class UserResourceTest {
 //    }
 
 
-}
+    }
