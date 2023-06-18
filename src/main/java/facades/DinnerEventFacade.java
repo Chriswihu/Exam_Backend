@@ -40,9 +40,6 @@ public class DinnerEventFacade {
         return instance;
     }
 
-    public static DinnerEventDTO updateEvent(Long id, DinnerEventDTO dedto) {
-    }
-
     private EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
