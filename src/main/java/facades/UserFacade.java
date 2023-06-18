@@ -1,5 +1,6 @@
 package facades;
 
+import dtos.UserDTO;
 import entities.User;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -41,6 +42,57 @@ public class UserFacade {
             em.close();
         }
         return user;
+    }
+
+    public UserDTO getUserByUserName(String username) {
+        EntityManager em = emf.createEntityManager();
+        User user;
+        try {
+            user = em.find(User.class, username);
+        } finally {
+            em.close();
+        }
+        return new UserDTO(user);
+    }
+
+    public UserDTO createUser(UserDTO userDTO) {
+        EntityManager em = emf.createEntityManager();
+        User user = new User(userDTO.getUserName(), userDTO.getPassword(), userDTO.getAddress(), userDTO.getPhone(), userDTO.getEmail(), userDTO.getBirthYear(), userDTO.getAccount());
+        try {
+            em.getTransaction().begin();
+            em.persist(user);
+            em.getTransaction().commit();
+        } finally {
+            em.close();
+        }
+        return new UserDTO(user);
+    }
+
+    public UserDTO editUser(UserDTO userDTO) {
+        EntityManager em = emf.createEntityManager();
+        User user = new User(userDTO.getUserName(), userDTO.getPassword(), userDTO.getAddress(), userDTO.getPhone(), userDTO.getEmail(), userDTO.getBirthYear(), userDTO.getAccount());
+        try {
+            em.getTransaction().begin();
+            em.merge(user);
+            em.getTransaction().commit();
+        } finally {
+            em.close();
+        }
+        return new UserDTO(user);
+    }
+
+    public UserDTO deleteUser(String username) {
+        EntityManager em = emf.createEntityManager();
+        User user;
+        try {
+            user = em.find(User.class, username);
+            em.getTransaction().begin();
+            em.remove(user);
+            em.getTransaction().commit();
+        } finally {
+            em.close();
+        }
+        return new UserDTO(user);
     }
 
 }

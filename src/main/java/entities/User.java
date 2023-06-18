@@ -46,6 +46,9 @@ public class User implements Serializable {
     @ManyToMany
     private List<Role> roleList = new ArrayList<>();
 
+    public User(User u) {
+    }
+
     public List<String> getRolesAsStrings() {
         if (roleList.isEmpty()) {
             return null;
