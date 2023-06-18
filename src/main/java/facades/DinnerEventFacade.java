@@ -40,6 +40,9 @@ public class DinnerEventFacade {
         return instance;
     }
 
+    public static DinnerEventDTO updateEvent(Long id, DinnerEventDTO dedto) {
+    }
+
     private EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
@@ -75,15 +78,16 @@ public class DinnerEventFacade {
         }
     }
 
-    public DinnerEventDTO editEvent(DinnerEventDTO dd){
+    public DinnerEventDTO editEvent(Long id, DinnerEventDTO ddto){
         EntityManager em = emf.createEntityManager();
-        DinnerEvent d = em.find(DinnerEvent.class, dd.getId());
+        DinnerEvent d = em.find(DinnerEvent.class, id);
         try{
             em.getTransaction().begin();
-            d.setTime(dd.getTime());
-            d.setLocation(dd.getLocation());
-            d.setDish(dd.getDish());
-            d.setPrice(dd.getPrice());
+            d.setTime(ddto.getTime());
+            d.setLocation(ddto.getLocation());
+            d.setDish(ddto.getDish());
+            d.setPrice(ddto.getPrice());
+            em.merge(d);
             em.getTransaction().commit();
         }finally {
             em.close();

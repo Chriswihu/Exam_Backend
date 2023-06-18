@@ -55,6 +55,19 @@ public class UserFacade {
         return new UserDTO(user);
     }
 
+    public User addUser(String username, String password) {
+        EntityManager em = emf.createEntityManager();
+        User user = new User(username, password);
+        try {
+            em.getTransaction().begin();
+            em.persist(user);
+            em.getTransaction().commit();
+        } finally {
+            em.close();
+        }
+        return user;
+    }
+
     public UserDTO createUser(UserDTO userDTO) {
         EntityManager em = emf.createEntityManager();
         User user = new User(userDTO.getUserName(), userDTO.getPassword(), userDTO.getAddress(), userDTO.getPhone(), userDTO.getEmail(), userDTO.getBirthYear(), userDTO.getAccount());

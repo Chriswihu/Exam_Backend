@@ -29,7 +29,7 @@ public class AssignmentFacade {
      * @param _emf
      * @return an instance of this facade class.
      */
-    public static AssignmentFacade getFacadeExample(EntityManagerFactory _emf) {
+    public static AssignmentFacade getAssignmentFacade(EntityManagerFactory _emf) {
         if (instance == null) {
             emf = _emf;
             instance = new AssignmentFacade();
