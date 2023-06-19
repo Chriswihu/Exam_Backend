@@ -22,7 +22,7 @@ public class AssignmentDTO implements Serializable {
         this.users = a.getUsers().stream().map(u -> new UserDTO(u)).collect(Collectors.toList());
     }
 
-    public List<AssignmentDTO> getAssignmentsDTOs(List<Assignment> assignments) {
+    public static List<AssignmentDTO> getDTOs(List<Assignment> assignments) {
         return assignments.stream().map(a -> new AssignmentDTO(a)).collect(Collectors.toList());
     }
 

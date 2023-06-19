@@ -1,10 +1,7 @@
 package facades;
 
 import dtos.AssignmentDTO;
-import dtos.RenameMeDTO;
 import entities.Assignment;
-import entities.RenameMe;
-import utils.EMF_Creator;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -41,9 +38,9 @@ public class AssignmentFacade {
         return emf.createEntityManager();
     }
 
-    public AssignmentDTO assignToEvent(AssignmentDTO adto){
-        EntityManager em = emf.createEntityManager();
+    public AssignmentDTO create(AssignmentDTO adto){
         Assignment a = new Assignment(adto.getFamilyName(), adto.getDate(), adto.getContact());
+        EntityManager em = emf.createEntityManager();
         try{
             em.getTransaction().begin();
             em.persist(a);
@@ -54,23 +51,12 @@ public class AssignmentFacade {
         return new AssignmentDTO(a);
     }
 
-    public AssignmentDTO getAssignmentById(long id){
+    public AssignmentDTO assignToEvent(AssignmentDTO adto){
         EntityManager em = emf.createEntityManager();
         try{
-            Assignment a = em.find(Assignment.class, id);
-            return new AssignmentDTO(a);
-        }finally {
-            em.close();
-        }
-    }
-
-    public AssignmentDTO deleteAssignmentById(long id){
-        EntityManager em = emf.createEntityManager();
-
-        try{
-            Assignment a = em.find(Assignment.class, id);
             em.getTransaction().begin();
-            em.remove(a);
+            Assignment a = em.find(Assignment.class, adto.getId());
+
             em.getTransaction().commit();
             return new AssignmentDTO(a);
         }finally {
@@ -78,4 +64,40 @@ public class AssignmentFacade {
         }
     }
 
+    public List<AssignmentDTO> getAllAssignments(){
+        EntityManager em = emf.createEntityManager();
+        try{
+            TypedQuery<Assignment> query = em.createQuery("SELECT a FROM Assignment a", Assignment.class);
+            List<Assignment> assignments = query.getResultList();
+            return AssignmentDTO.getDTOs(assignments);
+        }finally {
+            em.close();
+        }
+    }
+
+    public void deleteAssignmentById(long id){
+        EntityManager em = emf.createEntityManager();
+
+        try{
+            Assignment a = em.find(Assignment.class, id);
+            em.getTransaction().begin();
+            em.remove(a);
+            em.getTransaction().commit();
+            new AssignmentDTO(a);
+        }finally {
+            em.close();
+        }
+    }
+
+//    public List<AssignmentDTO> allAssignments() {
+//        EntityManager em = emf.createEntityManager();
+//        try {
+//            TypedQuery<Assignment> query = em.createQuery("SELECT a FROM Assignment a", Assignment.class);
+//            List<Assignment> assignments = query.getResultList();
+//            return
+//        } finally {
+//            em.close();
+//        }
+//
+//    }
 }

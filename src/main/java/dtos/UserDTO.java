@@ -25,7 +25,7 @@ public class UserDTO {
     private final String email;
     private final int birthYear;
     private final int account;
-    private final List<AssignmentDTO> assignments;
+//    private final List<AssignmentDTO> assignments;
 
     public UserDTO(User u) {
         this.userName = u.getUserName();
@@ -35,10 +35,10 @@ public class UserDTO {
         this.email = u.getEmail();
         this.birthYear = u.getBirthYear();
         this.account = u.getAccount();
-        this.assignments = u.getAssignments().stream().map(a -> new AssignmentDTO(a)).collect(Collectors.toList());
+//        this.assignments = u.getAssignments().stream().map(a -> new AssignmentDTO(a)).collect(Collectors.toList());
     }
 
-    public List<UserDTO> getUsersDTOs(List<User> users) {
+    public static List<UserDTO> getDTOs(List<User> users) {
         return users.stream().map(u -> new UserDTO(u)).collect(Collectors.toList());
     }
 
@@ -70,9 +70,9 @@ public class UserDTO {
         return account;
     }
 
-    public List<AssignmentDTO> getAssignments() {
-        return assignments;
-    }
+//    public List<AssignmentDTO> getAssignments() {
+//        return assignments;
+//    }
 
     @Override
     public String toString() {

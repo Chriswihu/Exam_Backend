@@ -4,7 +4,11 @@ import dtos.UserDTO;
 import entities.User;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.TypedQuery;
+
 import security.errorhandling.AuthenticationException;
+
+import java.util.List;
 
 /**
  * @author lam@cphbusiness.dk
@@ -28,6 +32,18 @@ public class UserFacade {
             instance = new UserFacade();
         }
         return instance;
+    }
+
+    public static List<UserDTO> getAllUsers() {
+        EntityManager em = emf.createEntityManager();
+        List<User> users;
+        try {
+            TypedQuery<User> query = em.createQuery("SELECT u FROM User u", User.class);
+            users = query.getResultList();
+        } finally {
+            em.close();
+        }
+        return UserDTO.getDTOs(users);
     }
 
     public User getVerifiedUser(String username, String password) throws AuthenticationException {
@@ -81,12 +97,16 @@ public class UserFacade {
         return new UserDTO(user);
     }
 
-    public UserDTO editUser(UserDTO userDTO) {
+    public UserDTO editUser(String username, UserDTO userDTO) {
         EntityManager em = emf.createEntityManager();
-        User user = new User(userDTO.getUserName(), userDTO.getPassword(), userDTO.getAddress(), userDTO.getPhone(), userDTO.getEmail(), userDTO.getBirthYear(), userDTO.getAccount());
+        User user = em.find(User.class, username);
         try {
             em.getTransaction().begin();
-            em.merge(user);
+            user.setAddress(userDTO.getAddress());
+            user.setPhone(userDTO.getPhone());
+            user.setEmail(userDTO.getEmail());
+            user.setBirthYear(userDTO.getBirthYear());
+            user.setAccount(userDTO.getAccount());
             em.getTransaction().commit();
         } finally {
             em.close();
