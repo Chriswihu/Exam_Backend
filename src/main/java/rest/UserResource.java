@@ -18,7 +18,7 @@ import java.util.List;
 /**
  * @author lam@cphbusiness.dk
  */
-@Path("info")
+@Path("user")
 public class UserResource {
     
     private static final EntityManagerFactory EMF = EMF_Creator.createEntityManagerFactory();

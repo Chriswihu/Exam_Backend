@@ -14,7 +14,7 @@ import javax.ws.rs.core.*;
 import java.util.List;
 
 //Todo Remove or change relevant parts before ACTUAL use
-@Path("xxx")
+@Path("event")
 public class DinnerEventResource {
 
     private static final EntityManagerFactory EMF = EMF_Creator.createEntityManagerFactory();

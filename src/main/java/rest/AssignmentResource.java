@@ -16,7 +16,7 @@ import javax.ws.rs.core.*;
 import java.util.List;
 
 //Todo Remove or change relevant parts before ACTUAL use
-@Path("xxx")
+@Path("assignment")
 public class AssignmentResource {
 
     private static final EntityManagerFactory EMF = EMF_Creator.createEntityManagerFactory();
