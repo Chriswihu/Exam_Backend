@@ -22,9 +22,9 @@ public class SetupTestUsers {
         // Also, either delete this file, when users are created or rename and add to .gitignore
         // Whatever you do DO NOT COMMIT and PUSH with the real passwords
 
-//        User user = new User("user", "test123");
-//        User admin = new User("admin", "test123");
-//        User both = new User("user_admin", "test123");
+        User user = new User("user", "test123");
+        User admin = new User("admin", "test123");
+        User both = new User("user_admin", "test123");
         User tu1 = new User("testUser1", "test123", "testAddress1", "testPhone1", "testEmail1", 1990, 0);
         User tu2 = new User("testUser2", "test123", "testAddress2", "testPhone2", "testEmail2", 1991, 0);
         User tu3 = new User("testUser3", "test123", "testAddress3", "testPhone3", "testEmail3", 1992, 0);
@@ -58,17 +58,23 @@ public class SetupTestUsers {
 
         Role userRole = new Role("user");
         Role adminRole = new Role("admin");
-//        user.addRole(userRole);
-//        admin.addRole(adminRole);
-//        both.addRole(userRole);
-//        both.addRole(adminRole);
+        user.addRole(userRole);
+        admin.addRole(adminRole);
+        both.addRole(userRole);
+        both.addRole(adminRole);
 
+        tu1.addRole(userRole);
+        tu2.addRole(userRole);
+        tu3.addRole(userRole);
+        tu4.addRole(userRole);
+        tu5.addRole(userRole);
+        tu6.addRole(userRole);
 
-//        em.persist(userRole);
-//        em.persist(adminRole);
-//        em.persist(user);
-//        em.persist(admin);
-//        em.persist(both);
+        em.persist(userRole);
+        em.persist(adminRole);
+        em.persist(user);
+        em.persist(admin);
+        em.persist(both);
         em.persist(ta1);
         em.persist(ta2);
         em.persist(td1);
