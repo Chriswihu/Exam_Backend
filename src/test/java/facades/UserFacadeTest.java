@@ -56,7 +56,7 @@ public class UserFacadeTest {
 
     @Test
     public void testUserFacade() {
-        List<UserDTO> uf = new ArrayList();
+        List<UserDTO> uf = new ArrayList<>();
         uf.add(facade.getUserByUserName("user"));
         uf.add(facade.getUserByUserName("admin"));
         assertEquals(2, uf.size());

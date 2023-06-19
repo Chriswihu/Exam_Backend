@@ -1,6 +1,9 @@
 package facades;
 
+import dtos.AssignmentDTO;
+import dtos.DinnerEventDTO;
 import dtos.UserDTO;
+import entities.Assignment;
 import entities.User;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -34,7 +37,7 @@ public class UserFacade {
         return instance;
     }
 
-    public static List<UserDTO> getAllUsers() {
+    public List<UserDTO> getAllUsers() {
         EntityManager em = emf.createEntityManager();
         List<User> users;
         try {
@@ -116,9 +119,8 @@ public class UserFacade {
 
     public UserDTO deleteUser(String username) {
         EntityManager em = emf.createEntityManager();
-        User user;
+        User user = em.find(User.class, username);
         try {
-            user = em.find(User.class, username);
             em.getTransaction().begin();
             em.remove(user);
             em.getTransaction().commit();
@@ -126,6 +128,15 @@ public class UserFacade {
             em.close();
         }
         return new UserDTO(user);
+    }
+
+    public List<AssignmentDTO> getUserEvents(String username) {
+        EntityManager em = emf.createEntityManager();
+        TypedQuery<User> query = em.createQuery("SELECT u FROM User u WHERE u.userName = :username", User.class).setParameter("username", username);
+        User user = query.getSingleResult();
+        List<Assignment> assignments = user.getAssignments();
+        return AssignmentDTO.getDTOs(assignments);
+
     }
 
 }

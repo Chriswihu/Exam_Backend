@@ -42,6 +42,10 @@ public class DinnerEventResource {
         return de;
     }
 
+//    @GET
+//    @Produces({MediaType.APPLICATION_JSON})
+//    @Path("/{username}")
+
     @POST
     @Produces({MediaType.APPLICATION_JSON})
     @Consumes({MediaType.APPLICATION_JSON})

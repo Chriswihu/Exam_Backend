@@ -41,22 +41,15 @@ public class AssignmentResource {
     @Produces({MediaType.APPLICATION_JSON})
     @Path("all")
     public String getAllAssignments() {
-        EntityManager em = EMF.createEntityManager();
-        try {
-            TypedQuery<Assignment> query = em.createQuery("select a from Assignment a", Assignment.class);
-            List<Assignment> assignments = query.getResultList();
-            return "[" + assignments.size() + "]";
-        } finally {
-            em.close();
-        }
+        return GSON.toJson(assignmentFacade.getAllAssignments());
     }
 
     @POST
     @Produces({MediaType.APPLICATION_JSON})
     @Consumes({MediaType.APPLICATION_JSON})
     public Response createAssignment(String content) {
-        AssignmentDTO adto = GSON.fromJson(content, AssignmentDTO.class);
-        AssignmentDTO a = assignmentFacade.assignToEvent(adto);
+        AssignmentDTO ad = GSON.fromJson(content, AssignmentDTO.class);
+        AssignmentDTO adto = assignmentFacade.assignToEvent(ad);
         return Response.ok(GSON.toJson(new Assignment(adto.getFamilyName(), adto.getDate(),adto.getContact()))).build();
 
     }
@@ -64,7 +57,7 @@ public class AssignmentResource {
     @DELETE
     @Produces({MediaType.APPLICATION_JSON})
     @Consumes({MediaType.APPLICATION_JSON})
-    @Path("/{id}")
+    @Path("{id}")
     public Response deleteAssignment(@PathParam("id") Long id, String content) throws Exception {
 //        AssignmentDTO adto = GSON.fromJson(content, AssignmentDTO.class);
         assignmentFacade.deleteAssignmentById(id);

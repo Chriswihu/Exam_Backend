@@ -42,14 +42,16 @@ public class UserResource {
     @Path("all")
     public String allUsers() {
 
-        EntityManager em = EMF.createEntityManager();
-        try {
-            TypedQuery<User> query = em.createQuery ("select u from User u", User.class);
-            List<User> users = query.getResultList();
-            return "[" + users.size() + "]";
-        } finally {
-            em.close();
-        }
+        return GSON.toJson(userFacade.getAllUsers());
+    }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/{userName}")
+//    @RolesAllowed("user")
+    public String getUserAssignments(@PathParam("userName") String userName) {
+        return GSON.toJson(userFacade.getUserEvents(userName));
+
     }
 
     @POST
@@ -57,7 +59,16 @@ public class UserResource {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response createUser(String content) {
         UserDTO udto = GSON.fromJson(content, UserDTO.class);
-        User u = userFacade.addUser(udto.getUserName(), udto.getPassword());
-        return Response.ok(GSON.toJson(new UserDTO(u))).build();
+        UserDTO ud = userFacade.createUser(udto);
+        return Response.ok(GSON.toJson(new User(ud.getUserName(), ud.getPassword()))).build();
+    }
+
+    @DELETE
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("/delete/{userName}")
+    public Response deleteUser(@PathParam("userName") String userName) {
+        UserDTO udto = userFacade.deleteUser(userName);
+        return Response.ok(GSON.toJson(new User(udto.getUserName(), udto.getPassword()))).build();
     }
 }
