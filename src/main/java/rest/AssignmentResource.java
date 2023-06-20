@@ -50,7 +50,7 @@ public class AssignmentResource {
     public Response createAssignment(String content) {
         AssignmentDTO ad = GSON.fromJson(content, AssignmentDTO.class);
         AssignmentDTO adto = assignmentFacade.assignToEvent(ad);
-        return Response.ok(GSON.toJson(new Assignment(adto.getFamilyName(), adto.getDate(),adto.getContact()))).build();
+        return Response.ok(GSON.toJson(adto)).build();
 
     }
 
