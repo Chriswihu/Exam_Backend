@@ -3,6 +3,7 @@ on:
   push:
     branches: 
     - main
+    - New_New_Main
 jobs:
   Do-the-travis-thing:
     runs-on: ubuntu-20.04 #or ubuntu-latest
